@@ -1,0 +1,58 @@
+-- B. Practical:
+--    Create a Banking Management System using Customer and Account tables.
+--    Create Customer and Account tables with suitable attributes.
+--     Apply appropriate Primary Key and Foreign Key constraints.
+--    Apply suitable NOT NULL, UNIQUE, DEFAULT, and CHECK constraints.
+--    Insert at least 5 customers and 5 account records.
+--    Display accounts having a balance greater than a given amount.
+--    Display accounts in descending order of their balance.
+--   Calculate the total balance of all accounts using an aggregate function.
+--   Find the maximum and minimum account balance.
+--   Update the balance of a particular account.
+--   Delete an account based on a suitable credentials
+--   display the records
+
+create database banking_management_system;
+use banking_management_system;
+
+create table Customer(customer_id int primary key, name varchar(100) NOT NULL, email varchar(100) UNIQUE, age int Check (age>=18), status varchar(50) Default 'Active' );
+
+Insert into Customer
+values(1,'Mohan','avc@gmail.com', 32,Default),
+(2,'John','abc@gmail.com',20,'active'),
+(3,'Riya','xyz@gmail.com', 23,'Active'),
+(4,'Sam','ckd@gmail.com', 19,'Inactive'),
+(5,'Kavya','kjs@gmail.com', 22,'Inactive');
+
+Create table Accounts( balance int NOT NULL, customer_id int unique,Foreign key(customer_id) REFERENCES Customer(customer_id) on delete cascade);
+
+Insert into Accounts(balance,customer_id)
+values(30000,2),
+(20000,3),
+(1200,5),
+(24000,1),
+(29000,4);
+
+select*from Accounts
+where balance>20000;
+
+Select* from Accounts
+order by balance desc;
+
+select sum(balance) as total_balance from Accounts;
+
+select Max(balance) as maximum_balance, Min(balance) as minimum_balance from Accounts;
+
+Update Accounts
+set balance= balance +50000
+where customer_id= 1;
+
+Delete from Customer
+where name='Kavya';
+
+select c.name, c.email, c.age, c.status,a.balance, a.customer_id from Accounts a
+Join Customer c ON a.customer_id=c.customer_id;
+
+select*from Customer;
+
+Select*from Accounts;
